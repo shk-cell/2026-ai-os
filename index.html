@@ -6,6 +6,14 @@
   <title>2026학년도 AI중점학교 중등 자료집</title>
 
   <style>
+    /* ✅ 폰트 등록 */
+    @font-face{
+      font-family:'MaplestoryLight';
+      src:url('fonts/MaplestoryLight.ttf') format('truetype');
+      font-weight:normal;
+      font-style:normal;
+    }
+
     :root{
       --border:#e5e7eb;
       --text:#111827;
@@ -14,7 +22,7 @@
     }
 
     body{
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      font-family:'MaplestoryLight', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
       margin:24px;
       color:var(--text);
       background:var(--bg);
@@ -22,6 +30,7 @@
 
     h1{
       font-size:22px;
+      font-weight:700;
       margin:0 0 8px 0;
     }
 
@@ -32,7 +41,6 @@
       line-height:1.6;
     }
 
-    /* 대단원 탭 */
     .toc-tabs{
       display:flex;
       gap:10px;
@@ -57,17 +65,17 @@
       border-color:#111827;
     }
 
-    /* 메인 카드 */
     .panel{
       border:1px solid var(--border);
       border-radius:14px;
       background:#fff;
       padding:18px;
-      margin-top: 10px;
+      margin-top:10px;
     }
 
     .panel h2{
       font-size:16px;
+      font-weight:700;
       margin:0 0 10px 0;
     }
 
@@ -82,7 +90,7 @@
       display:grid;
       grid-template-columns: 1fr 1fr 1fr;
       gap:12px;
-      margin-top: 14px;
+      margin-top:14px;
     }
 
     .card{
@@ -93,7 +101,7 @@
     }
 
     .card .title{
-      font-weight:800;
+      font-weight:700;
       margin:0 0 6px 0;
       font-size:14px;
     }
@@ -133,7 +141,6 @@
     운영체제 단원은 Step 카드(이미지/설명) 방식으로 구성되어 있습니다.
   </p>
 
-  <!-- (메인에서는 active 없어도 되지만, 현재 페이지 표시용으로 index에 active 처리) -->
   <nav class="toc-tabs" aria-label="대단원 목차">
     <a class="toc-tab active" href="index.html">목차</a>
     <a class="toc-tab" href="computing-system.html">1. 컴퓨팅시스템</a>
