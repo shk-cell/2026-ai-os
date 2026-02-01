@@ -7,11 +7,12 @@
   <style>
     :root { --border:#e5e7eb; --text:#111827; --muted:#6b7280; --bg:#ffffff; }
     body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; margin: 24px; color: var(--text); background: var(--bg); }
-    header { display:flex; gap:12px; align-items:baseline; flex-wrap:wrap; }
+
+    header { display:flex; gap:12px; align-items:baseline; flex-wrap:wrap; margin-bottom: 6px; }
     h1 { font-size: 22px; margin: 0; }
     .sub { color: var(--muted); margin: 0; font-size: 14px; }
 
-    .tabs { display:flex; gap:10px; flex-wrap:wrap; margin: 16px 0 18px; }
+    .tabs { display:flex; gap:10px; flex-wrap:wrap; margin: 16px 0 14px; }
     .tab {
       padding: 10px 14px;
       border: 1px solid var(--border);
@@ -40,8 +41,9 @@
     .badge { font-weight: 700; font-size: 14px; margin-bottom: 10px; }
     .desc { white-space: pre-wrap; line-height: 1.65; font-size: 15px; }
 
-    .empty, .error {
-      margin-top: 14px;
+    /* 상태 안내(필수) */
+    #status.empty, #status.error {
+      margin-top: 10px;
       padding: 12px 14px;
       border-radius: 12px;
       border: 1px solid var(--border);
@@ -49,8 +51,9 @@
       color: var(--muted);
       font-size: 14px;
     }
+    #status.error { color: #991b1b; background: #fff1f2; border-color:#fecdd3; }
 
-    footer { margin-top: 28px; color: var(--muted); font-size: 12px; }
+    footer { margin-top: 26px; color: var(--muted); font-size: 12px; }
     code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
 
     @media (max-width: 900px) {
@@ -60,20 +63,28 @@
 </head>
 <body>
 
+  <header>
+    <h1>2026학년도 AI중점학교 중등 자료집 - 운영체제</h1>
+    <p class="sub">활동을 선택하면 아래에 단계가 표시됩니다.</p>
+  </header>
+
   <div class="tabs">
-    <button class="tab" id="tab-web" onclick="switchPage('web')">
+    <button class="tab" id="tab-web" type="button" onclick="switchPage('web')">
       1. 웹 에뮬레이터를 통한 여러가지 운영체제 체험
     </button>
-    <button class="tab" id="tab-vm" onclick="switchPage('vm')">
+    <button class="tab" id="tab-vm" type="button" onclick="switchPage('vm')">
       2. 가상머신을 활용한 리눅스 체험
     </button>
   </div>
+
+  <!-- ✅ 선생님이 지우셔서 문제가 생긴 핵심 요소: status -->
+  <div id="status" class="empty">위 버튼을 눌러 활동을 선택하세요.</div>
 
   <div id="list"></div>
 
   <footer>
     <div>
-      
+      (관리용) 이미지: <code>images/</code> / 설명: <code>data/web-emulator.json</code>, <code>data/vm-linux.json</code>
     </div>
   </footer>
 
@@ -103,12 +114,13 @@
     function render(items) {
       if (!items.length) {
         statusEl.className = 'empty';
-        statusEl.innerHTML = '아직 단계가 없습니다. 데이터 파일에 내용을 추가하세요.';
+        statusEl.textContent = '아직 단계가 없습니다. 데이터 파일에 내용을 추가하세요.';
         listEl.innerHTML = '';
         return;
       }
 
-      statusEl.innerHTML = '';
+      statusEl.className = '';
+      statusEl.textContent = '';
       listEl.innerHTML = items.map(it => {
         const no = it.no ?? '';
         const img = it.img ?? '';
@@ -129,27 +141,30 @@
 
     async function switchPage(key) {
       setActiveTab(key);
+
       statusEl.className = 'empty';
       statusEl.textContent = '불러오는 중…';
       listEl.innerHTML = '';
 
       try {
         const res = await fetch(pages[key].file, { cache: 'no-store' });
-        if (!res.ok) throw new Error();
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const items = await res.json();
-        if (!Array.isArray(items)) throw new Error();
+        if (!Array.isArray(items)) throw new Error('JSON이 배열([]) 형식이 아닙니다.');
 
         items.sort((a, b) => (a.no ?? 0) - (b.no ?? 0));
         render(items);
-      } catch {
+      } catch (e) {
         statusEl.className = 'error';
-        statusEl.innerHTML =
-          `데이터를 불러오지 못했습니다. <code>${pages[key].file}</code> 파일을 확인하세요.`;
+        statusEl.innerHTML = `데이터를 불러오지 못했습니다. <code>${escapeHtml(pages[key].file)}</code> 파일/형식을 확인하세요.`;
         listEl.innerHTML = '';
       }
     }
+
+    // 메인 페이지 성격 유지: 자동 로드 없음
   </script>
 
 </body>
 </html>
+
 
