@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>운영체제 체험 자료</title>
+  <title>2026학년도 AI중점학교 중등 자료집 - 운영체제</title>
   <style>
     :root { --border:#e5e7eb; --text:#111827; --muted:#6b7280; --bg:#ffffff; }
     body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; margin: 24px; color: var(--text); background: var(--bg); }
@@ -19,6 +19,7 @@
       background: #f9fafb;
       cursor: pointer;
       font-size: 14px;
+      text-align: left;
     }
     .tab.active { background: #111827; color: #fff; border-color:#111827; }
 
@@ -58,26 +59,27 @@
       font-size: 14px;
     }
     footer { margin-top: 28px; color: var(--muted); font-size: 12px; }
+    code { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
     @media (max-width: 900px) { .item { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
   <header>
-    <h1 id="pageTitle">운영체제 체험</h1>
-    <p class="sub" id="pageSub">두 가지 방식으로 운영체제를 체험합니다.</p>
+    <h1>2026학년도 AI중점학교 중등 자료집 - 운영체제</h1>
+    <p class="sub">버튼을 눌러 활동을 선택하면 아래에 단계가 표시됩니다.</p>
   </header>
 
   <div class="tabs">
-    <button class="tab" id="tab-web" onclick="switchPage('web')">① 웹 에뮬레이터를 통한 여러가지 운영체제 체험</button>
-    <button class="tab" id="tab-vm" onclick="switchPage('vm')">② 가상머신을 활용한 리눅스 체험</button>
+    <button class="tab" id="tab-web" onclick="switchPage('web')">1. 웹 에뮬레이터를 통한 여러가지 운영체제 체험</button>
+    <button class="tab" id="tab-vm" onclick="switchPage('vm')">2. 가상머신을 활용한 리눅스 체험</button>
   </div>
 
   <div class="topbar">
-    <input id="q" type="search" placeholder="검색: 예) DOS, Windows, 부팅, ISO, VirtualBox ..." autocomplete="off" />
-    <p class="hint">현재 페이지의 ‘설명’에서 검색됩니다.</p>
+    <input id="q" type="search" placeholder="검색: 예) DOS, Windows, 부팅, ISO, VirtualBox ..." autocomplete="off" disabled />
+    <p class="hint" id="hintText">활동을 선택하면 ‘설명’에서 검색할 수 있습니다.</p>
   </div>
 
-  <div id="status"></div>
+  <div id="status" class="empty">위의 버튼을 눌러 운영체제 체험 활동을 선택하세요.</div>
   <div id="list"></div>
 
   <footer>
@@ -88,24 +90,14 @@
     const statusEl = document.getElementById('status');
     const listEl = document.getElementById('list');
     const qEl = document.getElementById('q');
-    const titleEl = document.getElementById('pageTitle');
-    const subEl = document.getElementById('pageSub');
 
     const pages = {
-      web: {
-        file: 'data/web-emulator.json',
-        title: '웹 에뮬레이터로 운영체제 체험',
-        sub: '브라우저에서 다양한 운영체제를 부팅/조작해 봅니다.'
-      },
-      vm: {
-        file: 'data/vm-linux.json',
-        title: '가상머신으로 리눅스 체험',
-        sub: 'VirtualBox 등 가상화 도구로 리눅스를 설치/실행해 봅니다.'
-      }
+      web: { file: 'data/web-emulator.json' },
+      vm:  { file: 'data/vm-linux.json' }
     };
 
     let currentItems = [];
-    let currentKey = 'web';
+    let currentKey = null;
 
     function escapeHtml(s) {
       return String(s ?? '')
@@ -130,17 +122,20 @@
       });
 
       if (!items.length) {
-        statusEl.innerHTML = `<div class="empty">아직 단계가 없습니다. <code>${escapeHtml(pages[currentKey].file)}</code>에 항목을 추가해 주세요.</div>`;
+        statusEl.className = 'empty';
+        statusEl.innerHTML = `아직 단계가 없습니다. <code>${escapeHtml(pages[currentKey].file)}</code>에 항목을 추가해 주세요.`;
         listEl.innerHTML = '';
         return;
       }
 
       if (!filtered.length) {
-        statusEl.innerHTML = `<div class="empty">검색 결과가 없습니다. (검색어: <b>${escapeHtml(q)}</b>)</div>`;
+        statusEl.className = 'empty';
+        statusEl.innerHTML = `검색 결과가 없습니다. (검색어: <b>${escapeHtml(q)}</b>)`;
         listEl.innerHTML = '';
         return;
       }
 
+      statusEl.className = '';
       statusEl.innerHTML = '';
       listEl.innerHTML = filtered.map(it => {
         const no = it.no ?? '';
@@ -164,11 +159,12 @@
       currentKey = key;
       setActiveTab(key);
 
-      titleEl.textContent = pages[key].title;
-      subEl.textContent = pages[key].sub;
-
+      // 검색 활성화
+      qEl.disabled = false;
       qEl.value = '';
-      statusEl.innerHTML = `<div class="empty">불러오는 중…</div>`;
+
+      statusEl.className = 'empty';
+      statusEl.textContent = '불러오는 중…';
       listEl.innerHTML = '';
 
       try {
@@ -182,15 +178,18 @@
 
         render(currentItems, qEl.value);
       } catch (e) {
-        statusEl.innerHTML = `<div class="error">오류: 데이터를 불러오지 못했습니다. <code>${escapeHtml(pages[key].file)}</code> 파일 존재/형식을 확인해 주세요.</div>`;
+        statusEl.className = 'error';
+        statusEl.innerHTML = `오류: 데이터를 불러오지 못했습니다. <code>${escapeHtml(pages[key].file)}</code> 파일 존재/형식을 확인해 주세요.`;
         listEl.innerHTML = '';
       }
     }
 
-    qEl.addEventListener('input', () => render(currentItems, qEl.value));
+    qEl.addEventListener('input', () => {
+      if (!currentKey) return;
+      render(currentItems, qEl.value);
+    });
 
-    // 첫 화면: 웹 에뮬레이터
-    switchPage('web');
+    // 처음 접속 시에는 아무 활동도 자동 로드하지 않음 (메인 페이지 역할)
   </script>
 </body>
 </html>
