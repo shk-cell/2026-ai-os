@@ -4,8 +4,15 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>2026학년도 AI중점학교 중등 자료집 - 운영체제</title>
+
   <style>
-    :root { --border:#e5e7eb; --text:#111827; --bg:#ffffff; }
+    :root {
+      --border:#e5e7eb;
+      --text:#111827;
+      --bg:#ffffff;
+      --link:#2563eb;
+    }
+
     body {
       font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
       margin: 24px;
@@ -13,15 +20,19 @@
       background: var(--bg);
     }
 
-    header { margin-bottom: 10px; }
-    h1 { font-size: 22px; margin: 0; }
-
-    .tabs {
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      margin: 16px 0 18px;
+    h1 {
+      font-size: 22px;
+      margin: 0 0 14px 0;
     }
+
+    /* 상단 버튼 */
+    .tabs {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
     .tab {
       padding: 10px 14px;
       border: 1px solid var(--border);
@@ -29,14 +40,15 @@
       background: #f9fafb;
       cursor: pointer;
       font-size: 14px;
-      text-align: left;
     }
+
     .tab.active {
       background: #111827;
       color: #fff;
-      border-color:#111827;
+      border-color: #111827;
     }
 
+    /* Step 카드 */
     .item {
       display: grid;
       grid-template-columns: 420px 1fr;
@@ -44,24 +56,36 @@
       padding: 18px 0;
       border-top: 1px solid var(--border);
     }
+
     img {
       width: 100%;
       border-radius: 12px;
       border: 1px solid var(--border);
       background: #f9fafb;
     }
+
     .badge {
       font-weight: 700;
       font-size: 14px;
       margin-bottom: 10px;
     }
+
+    .badge a {
+      color: var(--link);
+      text-decoration: underline;
+    }
+
+    .badge a:hover {
+      text-decoration: none;
+    }
+
     .desc {
       white-space: pre-wrap;
       line-height: 1.65;
       font-size: 15px;
     }
 
-    /* status는 존재만 하고, 기본적으로 안 보이게 */
+    /* 상태 요소 (화면엔 안 보임, JS용) */
     #status { display: none; }
 
     @media (max-width: 900px) {
@@ -69,11 +93,10 @@
     }
   </style>
 </head>
+
 <body>
 
-  <header>
-    <h1>2026학년도 AI중점학교 중등 자료집 - 운영체제</h1>
-  </header>
+  <h1>2026학년도 AI중점학교 중등 자료집 - 운영체제</h1>
 
   <div class="tabs">
     <button class="tab" id="tab-web" onclick="switchPage('web')">
@@ -84,13 +107,13 @@
     </button>
   </div>
 
-  <!-- JS용 상태 요소 (화면에는 안 보임) -->
+  <!-- JS에서 참조만 하는 요소 -->
   <div id="status"></div>
 
+  <!-- 단계 출력 영역 -->
   <div id="list"></div>
 
   <script>
-    const statusEl = document.getElementById('status');
     const listEl = document.getElementById('list');
 
     const pages = {
@@ -114,16 +137,24 @@
 
     function render(items) {
       listEl.innerHTML = items.map(it => {
-        const no = it.no ?? '';
-        const img = it.img ?? '';
-        const title = it.title ? ` - ${escapeHtml(it.title)}` : '';
+        const no = escapeHtml(it.no ?? '');
+        const title = escapeHtml(it.title ?? '');
+        const link = it.link ? escapeHtml(it.link) : '';
+        const img = it.img ? escapeHtml(it.img) : '';
         const desc = escapeHtml(it.desc ?? '');
 
         return `
           <section class="item">
             <div>
-              <div class="badge">Step ${escapeHtml(no)}${title}</div>
-              ${img ? `<img src="${escapeHtml(img)}" alt="step ${escapeHtml(no)}">` : ''}
+              <div class="badge">
+                Step ${no} -
+                ${
+                  link
+                    ? `<a href="${link}" target="_blank" rel="noopener noreferrer">${title}</a>`
+                    : title
+                }
+              </div>
+              ${img ? `<img src="${img}" alt="step ${no}">` : ''}
             </div>
             <div class="desc">${desc}</div>
           </section>
@@ -144,17 +175,12 @@
         items.sort((a, b) => (a.no ?? 0) - (b.no ?? 0));
         render(items);
       } catch {
-        // 에러 시에도 화면은 조용히
         listEl.innerHTML = '';
       }
     }
 
-    // 메인 페이지: 아무 것도 자동 로드하지 않음
+    // 메인 페이지: 자동 로드 없음
   </script>
-
-</body>
-</html>
-</script>
 
 </body>
 </html>
