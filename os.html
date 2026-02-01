@@ -6,6 +6,14 @@
   <title>2026학년도 AI중점학교 중등 자료집 - 운영체제</title>
 
   <style>
+    /* ✅ 폰트 등록 */
+    @font-face{
+      font-family:'MaplestoryLight';
+      src:url('fonts/MaplestoryLight.ttf') format('truetype');
+      font-weight:normal;
+      font-style:normal;
+    }
+
     :root{
       --border:#e5e7eb;
       --text:#111827;
@@ -15,29 +23,31 @@
     }
 
     body{
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-      margin: 24px;
-      color: var(--text);
-      background: var(--bg);
+      font-family:'MaplestoryLight', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      margin:24px;
+      color:var(--text);
+      background:var(--bg);
     }
 
     h1{
-      font-size: 22px;
-      margin: 0 0 8px 0;
+      font-size:22px;
+      font-weight:700;
+      margin:0 0 8px 0;
     }
 
     .subtitle{
-      color: var(--muted);
-      font-size: 14px;
-      margin: 0 0 16px 0;
+      color:var(--muted);
+      font-size:14px;
+      margin:0 0 16px 0;
+      line-height:1.6;
     }
 
-    /* ===== 대단원(목차) 탭 ===== */
+    /* 대단원(목차) */
     .toc-tabs{
       display:flex;
       gap:10px;
       flex-wrap:wrap;
-      margin: 0 0 18px 0;
+      margin:0 0 18px 0;
     }
     .toc-tab{
       display:inline-block;
@@ -45,7 +55,7 @@
       border-radius:12px;
       border:1px solid var(--border);
       text-decoration:none;
-      color: var(--text);
+      color:var(--text);
       background:#fff;
       font-weight:700;
       font-size:14px;
@@ -57,12 +67,12 @@
       border-color:#111827;
     }
 
-    /* ===== 단원(운영체제 내부) 탭 ===== */
+    /* 운영체제 내부 탭 */
     .tabs{
       display:flex;
       gap:10px;
       flex-wrap:wrap;
-      margin-bottom: 20px;
+      margin-bottom:20px;
     }
     .tab{
       padding:10px 14px;
@@ -71,7 +81,7 @@
       background:#f9fafb;
       cursor:pointer;
       font-size:14px;
-      font-weight:600;
+      font-weight:700;
     }
     .tab.active{
       background:#111827;
@@ -79,10 +89,9 @@
       border-color:#111827;
     }
 
-    /* Step 카드 */
     .item{
       display:grid;
-      grid-template-columns: 420px 1fr;
+      grid-template-columns:420px 1fr;
       gap:16px;
       padding:18px 0;
       border-top:1px solid var(--border);
@@ -102,8 +111,8 @@
     }
 
     .badge a{
-      color: var(--link);
-      text-decoration: underline;
+      color:var(--link);
+      text-decoration:underline;
     }
     .badge a:hover{ text-decoration:none; }
 
@@ -113,7 +122,6 @@
       font-size:15px;
     }
 
-    /* 상태 요소 (화면엔 안 보임, JS용) */
     #status{ display:none; }
 
     @media (max-width: 900px){
@@ -123,18 +131,16 @@
 </head>
 
 <body>
-
   <h1>2026학년도 AI중점학교 중등 자료집 - 운영체제</h1>
   <p class="subtitle">대단원 목차에서 단원을 이동하고, 운영체제 단원에서는 하단 탭으로 활동을 선택합니다.</p>
 
-  <!-- ✅ 대단원(목차) -->
   <nav class="toc-tabs" aria-label="대단원 목차">
+    <a class="toc-tab" href="index.html">목차</a>
     <a class="toc-tab" href="computing-system.html">1. 컴퓨팅시스템</a>
     <a class="toc-tab active" href="os.html">2. 운영체제</a>
     <a class="toc-tab" href="physical-computing.html">3. 피지컬 컴퓨팅</a>
   </nav>
 
-  <!-- ✅ 운영체제 단원 내부 탭 -->
   <div class="tabs">
     <button class="tab" id="tab-web" onclick="switchPage('web')">
       1. 웹 에뮬레이터를 통한 여러가지 운영체제 체험
@@ -144,22 +150,18 @@
     </button>
   </div>
 
-  <!-- JS에서 참조만 하는 요소 -->
   <div id="status"></div>
-
-  <!-- 단계 출력 영역 -->
   <div id="list"></div>
 
   <script>
     const listEl = document.getElementById('list');
 
-    // ✅ 운영체제 내부 데이터
     const pages = {
       web: { file: 'data/web-emulator.json' },
       vm:  { file: 'data/vm-linux.json' }
     };
 
-    function escapeHtml(s) {
+    function escapeHtml(s){
       return String(s ?? '')
         .replaceAll('&','&amp;')
         .replaceAll('<','&lt;')
@@ -168,12 +170,12 @@
         .replaceAll("'","&#39;");
     }
 
-    function setActiveTab(key) {
+    function setActiveTab(key){
       document.getElementById('tab-web').classList.toggle('active', key === 'web');
       document.getElementById('tab-vm').classList.toggle('active', key === 'vm');
     }
 
-    function render(items) {
+    function render(items){
       listEl.innerHTML = items.map(it => {
         const no = escapeHtml(it.no ?? '');
         const title = escapeHtml(it.title ?? '');
@@ -200,27 +202,27 @@
       }).join('');
     }
 
-    async function switchPage(key) {
+    async function switchPage(key){
       setActiveTab(key);
       listEl.innerHTML = '';
 
-      try {
-        const res = await fetch(pages[key].file, { cache: 'no-store' });
-        if (!res.ok) throw new Error();
+      try{
+        const res = await fetch(pages[key].file, { cache:'no-store' });
+        if(!res.ok) throw new Error();
         const items = await res.json();
-        if (!Array.isArray(items)) throw new Error();
+        if(!Array.isArray(items)) throw new Error();
 
-        items.sort((a, b) => (a.no ?? 0) - (b.no ?? 0));
+        items.sort((a,b)=>(a.no ?? 0) - (b.no ?? 0));
         render(items);
-      } catch {
+      }catch{
         listEl.innerHTML = '';
       }
     }
 
-    // ✅ 페이지 로드시 기본 탭 자동 로드 (원치 않으면 아래 1줄 삭제)
+    // ✅ 첫 화면 자동 로드
     switchPage('web');
   </script>
-
 </body>
 </html>
+
 
