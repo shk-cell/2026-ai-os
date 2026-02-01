@@ -1,13 +1,15 @@
 [
   {
     "no": 1,
-    "title": "웹 에뮬레이터 - https://webos.js.org/",
+    "title": "웹 에뮬레이터 - webos.js.org",
+    "link": "https://webos.js.org/",
     "img": "images/다양한운영체제01.png",
     "desc": "다양한 운영체제를 체험할 수 있는 페이지입니다."
   },
   {
     "no": 2,
-    "title": "웹 에뮬레이터 - https://copy.sh/v86/",
+    "title": "웹 에뮬레이터 - copy.sh/v86",
+    "link": "https://copy.sh/v86/",
     "img": "images/다양한운영체제02.png",
     "desc": "다양한 운영체제를 체험할 수 있는 페이지입니다."
   }
