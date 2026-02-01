@@ -1,0 +1,14 @@
+[
+  {
+    "no": 1,
+    "title": "가상 머신 생성",
+    "img": "images/v01.png",
+    "desc": "VirtualBox에서 새 가상 머신을 만든다.\n메모리 256MB로 설정한다."
+  },
+  {
+    "no": 2,
+    "title": "ISO 연결 및 부팅",
+    "img": "images/v02.png",
+    "desc": "부팅 디스크에 Tiny Core Linux ISO를 연결하고 실행한다."
+  }
+]
