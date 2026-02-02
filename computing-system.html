@@ -17,8 +17,8 @@
       --border:#e5e7eb;
       --text:#111827;
       --bg:#ffffff;
+      --link:#2563eb;
       --muted:#6b7280;
-      --card:#f9fafb;
     }
 
     body{
@@ -34,7 +34,7 @@
       margin:0 0 16px 0;
     }
 
-    /* ✅ 홈 버튼 */
+    /* ✅ 목차(홈) 버튼 */
     .home-btn{
       display:inline-block;
       margin-bottom:18px;
@@ -47,69 +47,69 @@
       font-weight:700;
       font-size:14px;
     }
+    .home-btn:hover{ background:#f6f8fa; }
 
-    .home-btn:hover{
-      background:#f6f8fa;
+    /* ✅ 단원 내부 탭 (OS와 동일 컨셉) */
+    .tabs{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-bottom:20px;
     }
-
-    .panel{
+    .tab{
+      padding:10px 14px;
       border:1px solid var(--border);
-      border-radius:14px;
-      background:#fff;
-      padding:18px;
-      margin-top:10px;
-    }
-
-    .panel h2{
-      font-size:16px;
+      border-radius:12px;
+      background:#f9fafb;
+      cursor:pointer;
+      font-size:14px;
       font-weight:700;
-      margin:0 0 10px 0;
+      font-family:'MaplestoryLight', system-ui, sans-serif;
+    }
+    .tab.active{
+      background:#111827;
+      color:#fff;
+      border-color:#111827;
     }
 
-    .panel p{
-      margin:0;
-      line-height:1.7;
-      font-size:15px;
-      white-space:pre-wrap;
-    }
-
-    .grid{
+    /* ✅ Step 카드 출력(이미지+설명) */
+    .item{
       display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap:12px;
-      margin-top:14px;
+      grid-template-columns:420px 1fr;
+      gap:16px;
+      padding:18px 0;
+      border-top:1px solid var(--border);
     }
 
-    .card{
+    img{
+      width:100%;
+      border-radius:12px;
       border:1px solid var(--border);
-      border-radius:14px;
-      background:var(--card);
-      padding:14px;
+      background:#f9fafb;
     }
 
-    .card .title{
+    .badge{
       font-weight:700;
-      margin:0 0 6px 0;
       font-size:14px;
+      margin-bottom:10px;
     }
 
-    .card .desc{
-      margin:0;
-      color:var(--muted);
-      line-height:1.6;
-      font-size:14px;
+    .badge a{
+      color:var(--link);
+      text-decoration:underline;
+    }
+    .badge a:hover{ text-decoration:none; }
+
+    .desc{
       white-space:pre-wrap;
+      line-height:1.65;
+      font-size:15px;
     }
 
-    .hint{
-      margin-top:14px;
-      color:var(--muted);
-      font-size:13px;
-      line-height:1.6;
-    }
+    #status{ display:none; }
 
     @media (max-width: 900px){
-      .grid{ grid-template-columns: 1fr; }
+      .item{ grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -117,50 +117,88 @@
 <body>
   <h1>2026학년도 AI중점학교 중등 자료집 - 컴퓨팅시스템</h1>
 
-  <!-- ✅ 홈 버튼만 유지 -->
   <a class="home-btn" href="index.html">목차</a>
 
-  <section class="panel">
-    <h2>준비중</h2>
-    <p>이 단원에는 아래 내용이 순서대로 추가됩니다.
-- 컴퓨팅 시스템 구성 요소(CPU, RAM, 저장장치, 메인보드, PSU, 케이스)
-- 부품 선택 기준과 조합(호환성, 성능, 예산)
-- 가상화 개념(가상머신/에뮬레이터/컨테이너 비교)
-- PC Building Simulator 활동 및 견적 사이트 연계</p>
+  <div class="tabs">
+    <button class="tab" id="tab-sim" onclick="switchPage('sim')">
+      1. PC BUILDING SIMULATOR를 활용한 컴퓨팅 시스템 구성 살펴보기
+    </button>
+    <button class="tab" id="tab-design" onclick="switchPage('design')">
+      2. 나만의 PC 시스템 설계하기
+    </button>
+  </div>
 
-    <div class="grid">
-      <div class="card">
-        <p class="title">예정 활동 1</p>
-        <p class="desc">
-PC Building Simulator로 부품 장착과 케이블 연결을 통해
-컴퓨팅 시스템 구조를 체험합니다.
-        </p>
-      </div>
+  <div id="status"></div>
+  <div id="list"></div>
 
-      <div class="card">
-        <p class="title">예정 활동 2</p>
-        <p class="desc">
-견적 사이트(다나와/컴퓨존)로 원하는 목적(게임/사무/학습)에 맞춰
-부품을 선택하고 근거를 정리합니다.
-        </p>
-      </div>
+  <script>
+    const listEl = document.getElementById('list');
 
-      <div class="card">
-        <p class="title">예정 활동 3</p>
-        <p class="desc">
-가상화 개념을 정리하고
-왜 운영체제 실습에서 가상머신을 사용하는지 연결합니다.
-        </p>
-      </div>
+    const pages = {
+      sim:    { file: 'data/pc-building-simulator.json' },
+      design: { file: 'data/my-pc-design.json' }
+    };
 
-      <div class="card">
-        <p class="title">예정 활동 4</p>
-        <p class="desc">
-학생 산출물(견적/설명/비교표)을 모아
-팀별 발표 자료로 구성합니다.
-        </p>
-      </div>
-    </div>
+    function escapeHtml(s){
+      return String(s ?? '')
+        .replaceAll('&','&amp;')
+        .replaceAll('<','&lt;')
+        .replaceAll('>','&gt;')
+        .replaceAll('"','&quot;')
+        .replaceAll("'","&#39;");
+    }
 
-    <div class="hint">
-※ 운영체제 단원처럼 JSON 기반 Step
+    function setActiveTab(key){
+      document.getElementById('tab-sim').classList.toggle('active', key === 'sim');
+      document.getElementById('tab-design').classList.toggle('active', key === 'design');
+    }
+
+    function render(items){
+      listEl.innerHTML = items.map(it => {
+        const no = escapeHtml(it.no ?? '');
+        const title = escapeHtml(it.title ?? '');
+        const link = it.link ? escapeHtml(it.link) : '';
+        const img = it.img ? escapeHtml(it.img) : '';
+        const desc = escapeHtml(it.desc ?? '');
+
+        return `
+          <section class="item">
+            <div>
+              <div class="badge">
+                Step ${no} -
+                ${
+                  link
+                    ? `<a href="${link}" target="_blank" rel="noopener noreferrer">${title}</a>`
+                    : title
+                }
+              </div>
+              ${img ? `<img src="${img}" alt="step ${no}">` : ''}
+            </div>
+            <div class="desc">${desc}</div>
+          </section>
+        `;
+      }).join('');
+    }
+
+    async function switchPage(key){
+      setActiveTab(key);
+      listEl.innerHTML = '';
+
+      try{
+        const res = await fetch(pages[key].file, { cache:'no-store' });
+        if(!res.ok) throw new Error();
+        const items = await res.json();
+        if(!Array.isArray(items)) throw new Error();
+
+        items.sort((a,b)=>(a.no ?? 0) - (b.no ?? 0));
+        render(items);
+      }catch{
+        listEl.innerHTML = '';
+      }
+    }
+
+    // ✅ 첫 화면 자동 로드
+    switchPage('sim');
+  </script>
+</body>
+</html>
