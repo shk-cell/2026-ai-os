@@ -1,10 +1,12 @@
 [
   {
     "no": 1,
-    "title": "활동 안내",
-    "link": "",
-    "img": "images/pcbs/step1.png",
-    "desc": "PC Building Simulator 활동의 목표와 진행 순서를 안내합니다."
+    "title": "PC BUILDING SIMULATOR",
+    "link": "https://store.steampowered.com/app/621060/PC/",
+    "img": "images/PcBuildingSimulator16.png",
+    "desc": "PC Building Simulator는 스팀(Steam) 플랫폼을 통해 제공되는 PC 조립 시뮬레이션 프로그램입니다.\n실제 PC 부품 제조사와 모델이 반영되어 있어, 컴퓨터 하드웨어의 구성 요소와 조립 과정을 현실적으로 체험할 수 있는 것이 특징입니다.\n
+해당 프로그램은 스팀 정가 기준 약 2만 원 내외이며, 할인 기간에는 약 1만 원 수준으로 구매가 가능합니다.\n우선 선생님께서 한 계정으로 PC Building Simulator를 구입하신 후,\n강의 중 컴퓨터 부품의 역할과 기능, 조립 방법, 설치 위치 등을 설명하실 때\n
+본 프로그램을 시각 자료로 활용하시면 효과적입니다."
   },
   {
     "no": 2,
