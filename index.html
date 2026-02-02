@@ -31,38 +31,7 @@
     h1{
       font-size:22px;
       font-weight:700;
-      margin:0 0 8px 0;
-    }
-
-    .subtitle{
-      color:var(--muted);
-      font-size:14px;
-      margin:0 0 16px 0;
-      line-height:1.6;
-    }
-
-    .toc-tabs{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      margin:0 0 18px 0;
-    }
-    .toc-tab{
-      display:inline-block;
-      padding:10px 14px;
-      border-radius:12px;
-      border:1px solid var(--border);
-      text-decoration:none;
-      color:var(--text);
-      background:#fff;
-      font-weight:700;
-      font-size:14px;
-    }
-    .toc-tab:hover{ background:#f6f8fa; }
-    .toc-tab.active{
-      background:#111827;
-      color:#fff;
-      border-color:#111827;
+      margin:0 0 20px 0;
     }
 
     .panel{
@@ -70,40 +39,25 @@
       border-radius:14px;
       background:#fff;
       padding:18px;
-      margin-top:10px;
-    }
-
-    .panel h2{
-      font-size:16px;
-      font-weight:700;
-      margin:0 0 10px 0;
-    }
-
-    .panel p{
-      margin:0;
-      line-height:1.7;
-      font-size:15px;
-      white-space:pre-wrap;
     }
 
     .grid{
       display:grid;
       grid-template-columns: 1fr 1fr 1fr;
       gap:12px;
-      margin-top:14px;
     }
 
     .card{
       border:1px solid var(--border);
       border-radius:14px;
       background:#f9fafb;
-      padding:14px;
+      padding:16px;
     }
 
     .card .title{
       font-weight:700;
-      margin:0 0 6px 0;
-      font-size:14px;
+      margin:0 0 8px 0;
+      font-size:15px;
     }
 
     .card .desc{
@@ -116,8 +70,8 @@
 
     .card a{
       display:inline-block;
-      margin-top:10px;
-      padding:8px 10px;
+      margin-top:12px;
+      padding:8px 12px;
       border-radius:10px;
       border:1px solid var(--border);
       background:#fff;
@@ -126,7 +80,10 @@
       font-weight:700;
       font-size:13px;
     }
-    .card a:hover{ background:#f6f8fa; }
+
+    .card a:hover{
+      background:#f6f8fa;
+    }
 
     @media (max-width: 900px){
       .grid{ grid-template-columns: 1fr; }
@@ -136,45 +93,36 @@
 
 <body>
   <h1>2026학년도 AI중점학교 중등 자료집</h1>
-  <p class="subtitle">
-    대단원 목차에서 단원을 선택해 이동합니다.
-    운영체제 단원은 Step 카드(이미지/설명) 방식으로 구성되어 있습니다.
-  </p>
-
-  <nav class="toc-tabs" aria-label="대단원 목차">
-    <a class="toc-tab active" href="index.html">목차</a>
-    <a class="toc-tab" href="computing-system.html">1. 컴퓨팅시스템</a>
-    <a class="toc-tab" href="os.html">2. 운영체제</a>
-    <a class="toc-tab" href="physical-computing.html">3. 피지컬 컴퓨팅</a>
-  </nav>
 
   <section class="panel">
-    <h2>대단원 구성</h2>
-    <p>이 자료집은 다음 3개의 단원으로 구성됩니다.</p>
-
     <div class="grid">
       <div class="card">
         <p class="title">1. 컴퓨팅시스템</p>
-        <p class="desc">컴퓨터 하드웨어 구성 요소와 시스템 구조를 이해하고,
-가상화 개념과 연결하여 학습합니다.</p>
+        <p class="desc">
+컴퓨터 하드웨어 구성 요소와 시스템 구조를 이해하고,
+가상화 개념과 연결하여 학습합니다.
+        </p>
         <a href="computing-system.html">단원으로 이동</a>
       </div>
 
       <div class="card">
         <p class="title">2. 운영체제</p>
-        <p class="desc">웹 에뮬레이터와 가상머신을 활용하여
-여러 운영체제를 직접 체험합니다.</p>
+        <p class="desc">
+웹 에뮬레이터와 가상머신을 활용하여
+여러 운영체제를 직접 체험합니다.
+        </p>
         <a href="os.html">단원으로 이동</a>
       </div>
 
       <div class="card">
         <p class="title">3. 피지컬 컴퓨팅</p>
-        <p class="desc">Tinkercad 및 micro:bit 기반으로
-센서/모터 제어 활동을 구성합니다.</p>
+        <p class="desc">
+Tinkercad 및 micro:bit 기반으로
+센서와 모터 제어 활동을 구성합니다.
+        </p>
         <a href="physical-computing.html">단원으로 이동</a>
       </div>
     </div>
   </section>
 </body>
 </html>
-
