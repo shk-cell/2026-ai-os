@@ -9,30 +9,39 @@
   },
   {
     "no": 2,
-    "title": "PC의 주요 구성품을 선택하세요.",
+    "title": "캐페시터 장착.",
     "link": "",
-    "img": "images/샵다나와02.png",
-    "desc": "수업 전에 PC 사용 목적을 미리 제시해 주시면 학생들이 부품 선택 기준을 잡는 데 도움이 됩니다.\n모든 학생이 동일한 견적을 구성하기보다 예산 범위를 조건으로 제시하면\n부품 선택 이유를 비교하고 분석하는 활동으로 확장하기 좋습니다.\nPC Building Simulator 활동 이후에 본 활동을 진행하면\nPC 조립 구조에 대한 이해에서 실제 가격 기반 설계 활동으로 자연스럽게 연결됩니다."
+    "img": "images/가로등02.png",
+    "desc": "캐패시터를 브레드보드에 장착해주세요."
   },
   {
     "no": 3,
-    "title": "샵다나와의 견적서 기능",
+    "title": "다이오드 장착",
     "link": "",
-    "img": "images/샵다나와03.png",
-    "desc": ""
+    "img": "images/가로등03.png",
+    "desc": "캐패시터 (+) 핀에 다이오드 (-) 핀을 연결합니다."
   },
   {
     "no": 4,
-    "title": "나만의 PC 시스템 설계 하기 - 컴퓨존",
-    "link": "https://www.compuzone.co.kr/online/online_main.htm?bannerid=GNBBannerOnlineMain&srsltid=AfmBOopTvg5kGsiUoVZDgqCO0LQbwcBCwkCV2hStIOyDBpHMpYkkhkb4",
-    "img": "images/컴퓨존01.png",
-    "desc": "[컴퓨존]도 [샵다나와]와 같은 기능을 제공합니다. 사용해보시고 더 편한 사이트를 이용하세요."
-  },
-  {
-    "no": 5,
-    "title": "컴퓨존의 견적서 기능",
+    "title": "태양광전지 (-)핀 브레드보드 (-) 레일 연결.",
     "link": "",
-    "img": "images/컴퓨존02.png",
-    "desc": ""
+    "img": "images/가로등04.png",
+    "desc": "태양광전지 (-)핀을 브레드보드 (-) 레일에 연결해 접지해주세요."
+  },
+    {
+    "no": 5,
+    "title": "캐패시터 접지",
+    "link": "",
+    "img": "images/가로등05.png",
+    "desc": "캐패시터를 브레드보드(-)레일에 연결해 접지합니다."
+  },  
+  {
+    "no": 6,
+    "title": "태양광전지 (+)핀을 다이오드 (+) 핀에 연결합니다. ",
+    "link": "",
+    "img": "images/가로등06.png",
+    "desc": "태양광 패널의 (+) 핀을 다이오드의 (+) 핀에 연결합니다. 이를 통해 태양광으로 생산된 전기가 다이오드를 거쳐 캐패시터에 안전하게 저장되며, 역류를 방지합니다."
   }
+
+ 
 ]
